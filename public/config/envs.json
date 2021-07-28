@@ -1,0 +1,22 @@
+{
+  "dev": {
+    "isDev": true,
+    "cmd": "nom run buildDev",
+    "targetDir": "D:\\dub\\gei-web\\gei-web-engine-parent\\gei-page-engine\\src\\main\\webapp\\assets"
+  },
+  "production":{
+    "isDev": false,
+    "cmd": "nom run build",
+    "targetDir": ".\\production_build"
+  },
+  "gray":{
+    "isDev": false,
+    "cmd": "nom run build_production_test",
+    "targetDir": ".\\production_test_build"
+  },
+  "_11rpg":{
+    "isDev": false,
+    "cmd": "nom run build_production_11rpg",
+    "targetDir": ".\\11rpg_build"
+  }
+}

@@ -12,7 +12,8 @@
 		"build": "tsc",
 		"start": "node dist/cli.js",
 		"pretest": "npm run build",
-		"test": "xo && ava"
+		"test": "xo && ava",
+    "clear": "rmdir /s/q dist & mkdir dist"
 	},
 	"files": [
 		"dist/cli.js"
