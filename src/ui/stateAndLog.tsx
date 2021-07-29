@@ -1,8 +1,6 @@
 import { Box } from "ink";
-import Markdown from "ink-markdown";
 import { Tab, Tabs } from "ink-tab";
 import React, { useState } from "react";
-import { FullScreen } from "./full-screen";
 import { Log } from "./log";
 import { State } from "./state";
 
@@ -17,7 +15,7 @@ const StateAndLog = () => {
     setActiveTab(name);
   };
   return (
-    <FullScreen>
+    <>
       <Tabs onChange={handleTabChange}>
         <Tab name={ACTIVE_TAB_NAME.STATE}>{ACTIVE_TAB_NAME.STATE}</Tab>
         <Tab name={ACTIVE_TAB_NAME.LOG}>{ACTIVE_TAB_NAME.LOG}</Tab>
@@ -30,7 +28,7 @@ const StateAndLog = () => {
           <Log />
         </Box>
       </Box>
-    </FullScreen>
+    </>
   );
 };
 

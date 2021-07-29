@@ -57,21 +57,23 @@ const App: FC<AppProps> = ({ fileConsumer }) => {
   const [curCompName, setCurCompName] = useState("selectEnv");
 
   const WELCOME_TEXT: string = dedent`
-		>${selectEnv}    功能概览如下(按 **Tab** 切换):
+		\`> ${selectEnv} > ${selectmodule}\`    功能概览如下(按 **Tab** 切换):
 	`;
   const handleEnvSelect = (item: option) => {
-    setSelectEnv(item.value);
+    setSelectEnv(item.label);
     setCurCompName("selectModules");
   };
   const handleModuleSelect = (item: option) => {
-    setSelectModule(item.value);
+    setSelectModule(item.label);
     setCurCompName("showStateAndLog");
   };
   return (
     <Context.Provider value={{ fileConsumer }}>
-      {curCompName == "selectEnv" && <comps.selectEnv />}
-      {curCompName == "selectModules" && <comps.selectModules />}
-      {curCompName == "showStateAndLog" && <comps.showStateAndLog />}
+      <FullScreen>
+        {curCompName == "selectEnv" && <comps.selectEnv />}
+        {curCompName == "selectModules" && <comps.selectModules />}
+        {curCompName == "showStateAndLog" && <comps.showStateAndLog />}
+      </FullScreen>
     </Context.Provider>
   );
 };
