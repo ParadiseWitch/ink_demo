@@ -23,6 +23,7 @@ export const ScrollView: FC<{ data: string[]; limit: number }> = ({
     data.slice(startLine, getEndLine())
   );
 
+  // 检测键盘输入事件
   useInput((input, key) => {
     if (key.upArrow) {
       if (cursor <= 0) {
@@ -59,9 +60,6 @@ export const ScrollView: FC<{ data: string[]; limit: number }> = ({
         {showData.map((item, index) => {
           return (
             <Box key={index}>
-              <Text>
-               {getEndLine()}
-              </Text>
               <Text color="blue">
                 {cursor == index + startLine + 1 && ">"}
                 {cursor != index + startLine + 1 && "\u00A0"}
