@@ -81,7 +81,6 @@ const App: FC<AppProps> = ({ fileConsumer }) => {
     let build = new Build(selectEnv);
     build.setBuildModules([selectmodule]);
     setCurCompName("showStateAndLog");
-      const [finish, setFinish] = useState(false);
 
     execProcess(build);
   };
@@ -89,9 +88,12 @@ const App: FC<AppProps> = ({ fileConsumer }) => {
     try {
       // setBuildOut(( build.runBuildCommand()));
       const log = await build.dup2targetDir();
+      console.log("log:", log.split("\n"));
+      
+      // FIXME: 没有通知到
       context?.fileConsumer.onDone({
         kind: "finish",
-        payload: log,
+        payload: log.split("\n"),
       });
       // await exec(`pause`);
     } catch (error) {
