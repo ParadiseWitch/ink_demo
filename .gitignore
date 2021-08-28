@@ -1,4 +1,10 @@
 .git
+.gitignore
 node_modules
 dist
 pnpm-lock.yaml
+.vscode/settings.json
+.vscode/launch.json
+.gitignore
+production_build/
+.
