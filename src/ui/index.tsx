@@ -1,17 +1,27 @@
 import { Box } from "ink";
 import Markdown from "ink-markdown";
 import SelectInput from "ink-select-input";
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import { envs, modules } from "../config";
-import { FileCopyConsumer } from "../consumers/FileCopyConsumer";
+import { EventData, FileCopyConsumer } from "../consumers/FileCopyConsumer";
 import { Context } from "./context";
 import { FullScreen } from "./full-screen";
-import option from "./option/option";
 import StateAndLog from "./stateAndLog";
 import dedent from "dedent";
+import { Build } from "../build/build";
 
 interface AppProps {
   fileConsumer: FileCopyConsumer;
+}
+
+class option {
+  public label: string;
+  public value: string;
+  constructor(label: string, value?: string) {
+    if (!value) this.label = this.value = label;
+    this.label = label;
+    this.value = value;
+  }
 }
 
 const build_envs = [];
@@ -44,7 +54,7 @@ const App: FC<AppProps> = ({ fileConsumer }) => {
     showStateAndLog: () => (
       <>
         <Box>
-          <Markdown>{WELCOME_TEXT}</Markdown>
+          <Markdown>{NAV_TEXT}</Markdown>
         </Box>
         <StateAndLog></StateAndLog>
       </>
@@ -55,8 +65,11 @@ const App: FC<AppProps> = ({ fileConsumer }) => {
   const [selectEnv, setSelectEnv] = useState("dev");
   const [selectmodule, setSelectModule] = useState(modules[0]);
   const [curCompName, setCurCompName] = useState("selectEnv");
+  const [buildOut, setBuildOut] = useState("");
+  const context = useContext(Context);
 
-  const WELCOME_TEXT: string = dedent`
+
+  const NAV_TEXT: string = dedent`
 		\`> ${selectEnv} > ${selectmodule}\`    功能概览如下(按 **Tab** 切换):
 	`;
   const handleEnvSelect = (item: option) => {
@@ -65,8 +78,26 @@ const App: FC<AppProps> = ({ fileConsumer }) => {
   };
   const handleModuleSelect = (item: option) => {
     setSelectModule(item.label);
+    let build = new Build(selectEnv);
+    build.setBuildModules([selectmodule]);
     setCurCompName("showStateAndLog");
+      const [finish, setFinish] = useState(false);
+
+    execProcess(build);
   };
+  async function execProcess(build: Build) {
+    try {
+      // setBuildOut(( build.runBuildCommand()));
+      const log = await build.dup2targetDir();
+      context?.fileConsumer.onDone({
+        kind: "finish",
+        payload: log,
+      });
+      // await exec(`pause`);
+    } catch (error) {
+      throw new Error("执行命令报错\t" + error);
+    }
+  }
   return (
     <Context.Provider value={{ fileConsumer }}>
       <FullScreen>
