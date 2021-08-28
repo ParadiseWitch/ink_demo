@@ -14,6 +14,7 @@ export class FileCopyConsumer {
     this.callbacks.push(fn);
   }
 
+  // 通知事件调用
   onDone(event: EventData) {
     this.callbacks.forEach(callback => callback(event))
   }
