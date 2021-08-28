@@ -9,9 +9,7 @@ export const State: FC<{}> = () => {
   const [finish, setFinish] = useState(false);
   context?.fileConsumer.onEvent((data: EventData) => {
     if (data.kind === 'finish') {
-      setTimeout(() => {
-        setFinish(true)
-      }, 2000)
+      setFinish(true);
     }
   })
 
