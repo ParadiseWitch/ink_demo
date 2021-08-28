@@ -12,7 +12,7 @@
 		"build": "tsc",
 		"start": "tsc && node dist/cli.js",
 		"pretest": "npm run build",
-		"test": "xo && ava",
+		"test": "tsc && node dist/test.js",
 		"clear": "rmdir /s/q dist & mkdir dist"
 	},
 	"files": [
@@ -22,7 +22,7 @@
 		"dedent": "^0.7.0",
 		"fdir": "^5.0.0",
 		"fs-extra": "^9.1.0",
-		"ink": "^3.0.8",
+		"ink": "^3.0.9",
 		"ink-markdown": "^1.0.1",
 		"ink-select-input": "^4.2.0",
 		"ink-spinner": "^4.0.1",
