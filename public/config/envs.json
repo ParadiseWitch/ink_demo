@@ -9,12 +9,12 @@
     "cmd": "npm run build",
     "targetDir": ".\\production_build"
   },
-  "gray":{
+  "production_109":{
     "isDev": false,
     "cmd": "npm run build_production_test",
     "targetDir": ".\\production_test_build"
   },
-  "_11rpg":{
+  "production_11rpg":{
     "isDev": false,
     "cmd": "npm run build_production_11rpg",
     "targetDir": ".\\11rpg_build"
