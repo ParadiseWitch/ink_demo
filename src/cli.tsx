@@ -27,4 +27,4 @@ const cli = meow(`
 const fileOperator = new FileOperator();
 
 render(<App fileConsumer={fileOperator.fileConsumer}/>);
-fileOperator.copyFiles();
+// fileOperator.copyFiles();

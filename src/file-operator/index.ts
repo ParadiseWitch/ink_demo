@@ -13,31 +13,31 @@ export class FileOperator {
     this.targetPath = targetPath ?? join(process.cwd(), 'dist');
   }
 
-  async copyFiles() {
-    const stats = [];
-    const staticFiles = await new fdir() 
-      .withFullPaths()   
-      .filter(
-        (p) =>
-          !p.includes('node_modules') &&
-          !p.endsWith('.ts') &&
-          !p.endsWith('.tsx')
-      )
-      .crawl(this.srcPath)
-      .withPromise() as string[]
+  // async copyFiles() {
+  //   const stats = [];
+  //   const staticFiles = await new fdir() 
+  //     .withFullPaths()   
+  //     .filter(
+  //       (p) =>
+  //         !p.includes('node_modules') &&
+  //         !p.endsWith('.ts') &&
+  //         !p.endsWith('.tsx')
+  //     )
+  //     .crawl(this.srcPath)
+  //     .withPromise() as string[]
 
-    console.log(staticFiles)
+  //   console.log(staticFiles)
     
-    await Promise.all(staticFiles.map(file => {
-      const targetFilePath = file.replace(this.srcPath, this.targetPath);
-      return fse.mkdirp(parse(targetFilePath).dir)
-        .then(() => fse.copyFile(file, targetFilePath))
-        .then(() => stats.push(`Copied file from [${file}] to [${targetFilePath}]`));
-    }))
+  //   await Promise.all(staticFiles.map(file => {
+  //     const targetFilePath = file.replace(this.srcPath, this.targetPath);
+  //     return fse.mkdirp(parse(targetFilePath).dir)
+  //       .then(() => fse.copyFile(file, targetFilePath))
+  //       .then(() => stats.push(`Copied file from [${file}] to [${targetFilePath}]`));
+  //   }))
 
-    this.fileConsumer.onDone({
-      kind: "finish",
-      payload: stats
-    })
-  }
+  //   this.fileConsumer.onDone({
+  //     kind: "finish",
+  //     payload: stats
+  //   })
+  // }
 }
