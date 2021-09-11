@@ -1,5 +1,5 @@
 import path from "path";
-import fs from "fs";
+import fs, { access, constants } from "fs";
 
 import { envs } from "../config"
 import { exec } from "../utils"
@@ -25,7 +25,7 @@ export class Build {
     this.buildModules = modules;
   }
 
-  isDir(filePath) {
+  isDir(filePath: fs.PathLike) {
     return fs.lstatSync(filePath).isDirectory();
   }
 
@@ -52,7 +52,16 @@ export class Build {
     if (this.name.startsWith("production")) {
       return path.join(folderPath, `${moduleName}-${maxTimestamp}`);
     }
-    return path.join(folderPath, moduleName);
+    // 检查当前目录中是否存在文件夹，是否可写。
+    const devBuildPath: fs.PathLike = path.join(folderPath, moduleName);
+    access(devBuildPath, constants.F_OK | constants.W_OK, (err) => {
+      if (err) {
+        console.error(`${devBuildPath} ${err.code === 'ENOENT' ? 'does not exist' : 'is read-only'}`);
+        throw new Error(`${devBuildPath} ${err.code === 'ENOENT' ? 'does not exist' : 'is read-only'}\n${err}`);
+      } else {
+        return devBuildPath;
+      }
+    });
   }
 
   // 删除旧文件夹  过时
@@ -76,7 +85,7 @@ export class Build {
   async dup2targetDir(): Promise<string> {
     for (let i = 0; i < this.buildModules.length; i++) {
       const buildDir = this.getBuildDir(this.buildModules[i]);
-      const command = `echo d | xcopy ${toolsDir}\\${this.buildModules[i]}\\dist\\${this.buildModules[i]} ${this.targetDir}\\${this.buildModules[i]} /s/y`
+      const command = `echo d & xcopy ${buildDir} ${this.targetDir}\\${this.buildModules[i]} /s/y`
       return await subProcessOut(command)
     }
   }
