@@ -65,7 +65,6 @@ const App: FC<AppProps> = ({ fileConsumer }) => {
   const [selectEnv, setSelectEnv] = useState("dev");
   const [selectmodule, setSelectModule] = useState(modules[0]);
   const [curCompName, setCurCompName] = useState("selectEnv");
-  const [buildOut, setBuildOut] = useState("");
   const context = useContext(Context);
 
 
@@ -86,7 +85,6 @@ const App: FC<AppProps> = ({ fileConsumer }) => {
   };
   async function execProcess(build: Build) {
     try {
-      // setBuildOut(( build.runBuildCommand()));
       const log = await build.dup2targetDir();
       console.log("log:", log.split("\n"));
       
