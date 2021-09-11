@@ -11,7 +11,8 @@
 	"scripts": {
 		"build": "tsc",
 		"start": "tsc && node dist/cli.js",
-		"debug": "tsc && cross-env DEV=true node dist/cli.js ",
+		"start-devtools": "npx react-devtools",
+		"devtools-debug": "tsc && cross-env DEV=true node dist/cli.js ",
 		"pretest": "npm run build",
 		"test": "tsc && node dist/test.js",
 		"clear": "rmdir /s/q dist & mkdir dist"
